@@ -35,7 +35,7 @@
             const startPage = document.getElementById('start_page').value;
             const endPage = document.getElementById('end_page').value;
 
-            fetch('https://your-flask-app-name.herokuapp.com/shuffle', {
+            fetch('https://pdf-shuffle-442304aa4bb9.herokuapp.com/shuffle', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -54,7 +54,7 @@
         nextPageBtn.addEventListener('click', nextPage);
 
         function nextPage() {
-            fetch('https://your-flask-app-name.herokuapp.com/next_page', {
+            fetch('https://pdf-shuffle-442304aa4bb9.herokuapp.com/next_page', {
                 method: 'GET'
             })
             .then(response => response.json())
