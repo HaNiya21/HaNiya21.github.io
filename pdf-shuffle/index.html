@@ -1,72 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Shuffling</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PDF Shuffling</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="form-container">
-        <h1>Shuffle PDF Pages</h1>
-        <form id="shuffleForm">
-            <label for="start_page">Start Page:</label>
-            <input type="number" id="start_page" name="start_page" required><br><br>
-            <label for="end_page">End Page:</label>
-            <input type="number" id="end_page" name="end_page" required><br><br>
-            <input type="submit" value="Shuffle Pages">
-        </form>
-    </div>
+  <div class="form-container">
+    <h1>Shuffle PDF Pages</h1>
+    <form id="shuffleForm" method="POST" action="https://pdf-shuffle-442304aa4bb9.herokuapp.com/">
+      <label for="start_page">Start Page:</label>
+      <input type="number" id="start_page" name="start_page" required>
+      <label for="end_page">End Page:</label>
+      <input type="number" id="end_page" name="end_page" required>
+      <button type="submit">Shuffle Pages</button>
+    </form>
+  </div>
 
-    <div id="shuffledPageContent" style="display:none;">
-        <h2>Shuffled PDF Page</h2>
-        <p id="pageContent"></p>
-        <button id="nextPageBtn">Next Page</button>
-    </div>
-
-    <script>
-        const shuffleForm = document.getElementById('shuffleForm');
-        const shuffledPageContent = document.getElementById('shuffledPageContent');
-        const pageContent = document.getElementById('pageContent');
-        const nextPageBtn = document.getElementById('nextPageBtn');
-
-        shuffleForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const startPage = document.getElementById('start_page').value;
-            const endPage = document.getElementById('end_page').value;
-
-            fetch('https://pdf-shuffle-442304aa4bb9.herokuapp.com/shuffle', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ start_page: startPage, end_page: endPage })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    shuffledPageContent.style.display = 'block';
-                    nextPage();
-                }
-            });
-        });
-
-        nextPageBtn.addEventListener('click', nextPage);
-
-        function nextPage() {
-            fetch('https://pdf-shuffle-442304aa4bb9.herokuapp.com/next_page', {
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.page_content) {
-                    pageContent.innerHTML = data.page_content;
-                } else {
-                    pageContent.innerHTML = 'No more pages to show!';
-                    nextPageBtn.style.display = 'none';
-                }
-            });
-        }
-    </script>
+  <!-- empty container: after redirect, the browser lands on Heroku’s /show_page -->
 </body>
 </html>
